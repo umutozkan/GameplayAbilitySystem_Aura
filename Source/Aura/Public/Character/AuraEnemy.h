@@ -18,9 +18,15 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 public:
 	AAuraEnemy();
 
+	/** Enemy Interface */
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+	/** End Enemy Interface */
 
+protected:
+	virtual void BeginPlay() override;
+
+private:
 	static void EnableMeshHighlight(USkeletalMeshComponent* Mesh);
 	static void DisableMeshHighlight(USkeletalMeshComponent* Mesh);
 };

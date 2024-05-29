@@ -46,3 +46,9 @@ void AAuraEnemy::DisableMeshHighlight(USkeletalMeshComponent* Mesh)
 	if (!Mesh) return;
 	Mesh->SetRenderCustomDepth(false);
 }
+
+void AAuraEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+}
