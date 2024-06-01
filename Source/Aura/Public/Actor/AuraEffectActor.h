@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ActiveGameplayEffectHandle.h"
 #include "GameFramework/Actor.h"
 #include "AuraEffectActor.generated.h"
 
@@ -50,13 +51,13 @@ protected:
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Aura|Applied Effects")
-	EEffectApplciationPolicy InstantEffectApplicationPolicy = EEffectApplciationPolicy::ApplyOnOverlap;
+	EEffectApplciationPolicy InstantEffectApplicationPolicy = EEffectApplciationPolicy::DoNotApply;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Aura|Applied Effects")
 	TSubclassOf<UGameplayEffect> DurationGameplayEffectClass;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Aura|Applied Effects")
-	EEffectApplciationPolicy DurationEffectApplicationPolicy = EEffectApplciationPolicy::ApplyOnOverlap;
+	EEffectApplciationPolicy DurationEffectApplicationPolicy = EEffectApplciationPolicy::DoNotApply;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Aura|Applied Effects")
 	TSubclassOf<UGameplayEffect> InfiniteGameplayEffectClass;
@@ -66,4 +67,6 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Aura|Applied Effects")
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
+
+	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
 };
