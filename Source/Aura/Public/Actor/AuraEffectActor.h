@@ -50,13 +50,13 @@ protected:
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Aura|Applied Effects")
-	EEffectApplciationPolicy InstantEffectApplicationPolicy = EEffectApplciationPolicy::DoNotApply;
+	EEffectApplciationPolicy InstantEffectApplicationPolicy = EEffectApplciationPolicy::ApplyOnOverlap;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Aura|Applied Effects")
 	TSubclassOf<UGameplayEffect> DurationGameplayEffectClass;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Aura|Applied Effects")
-	EEffectApplciationPolicy DurationEffectApplicationPolicy = EEffectApplciationPolicy::DoNotApply;
+	EEffectApplciationPolicy DurationEffectApplicationPolicy = EEffectApplciationPolicy::ApplyOnOverlap;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Aura|Applied Effects")
 	TSubclassOf<UGameplayEffect> InfiniteGameplayEffectClass;
