@@ -35,6 +35,11 @@ void AAuraEnemy::UnHighlightActor()
 	DisableMeshHighlight(Weapon);
 }
 
+int32 AAuraEnemy::GetPlayerLevel()
+{
+	return Level;
+}
+
 void AAuraEnemy::EnableMeshHighlight(USkeletalMeshComponent* Mesh)
 {
 	if (!Mesh) return;
