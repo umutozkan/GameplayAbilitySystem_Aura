@@ -56,6 +56,7 @@ void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	InitAbilityActorInfo();
+	AddCharacterAbilities();
 }
 
 void AAuraEnemy::InitAbilityActorInfo()
