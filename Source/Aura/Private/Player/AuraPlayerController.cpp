@@ -7,6 +7,8 @@
 #include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameplayTagContainer.h"
+#include "NavigationPath.h"
+#include "NavigationSystem.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
@@ -144,13 +146,40 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	if (GetASC() == nullptr) return;
-	GetASC()->AbilityInputTagReleased(InputTag);
+	// We don't call ability method on ASC if it's LMB and not targeting an enemy because we want to move that case.
+	// All other scenarios we call. 
+	if (bTargeting || !InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	{
+		if (GetASC())
+		{
+			GetASC()->AbilityInputTagReleased(InputTag);
+		}
+		return;
+	}
+
+	APawn* ControlledPawn = GetPawn();
+	if (FollowTime <= ShortPressThreshold && ControlledPawn)
+	{
+		if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(
+			this, ControlledPawn->GetActorLocation(), CachedDestination))
+		{
+			Spline->ClearSplinePoints();
+			for (const FVector& PointLoc : NavPath->PathPoints)
+			{
+				Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+				DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
+			}
+			bAutoRunning = true;
+		}
+	}
+	FollowTime = 0.f;
+	bTargeting = false;
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	// We don't activate ability if it's LMB and not targeting an enemy. All other scenarios we activate. 
+	// We don't call ability method on ASC if it's LMB and not targeting an enemy because we want to move that case.
+	// All other scenarios we call. 
 	if (bTargeting || !InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
 		if (GetASC())
