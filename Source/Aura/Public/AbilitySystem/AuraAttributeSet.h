@@ -132,8 +132,6 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
 	/** Secondary Attributes End */
 
-	
-	
 	/** Vital Attributes */
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Aura|Vital Attributes")
 	FGameplayAttributeData Health;
@@ -142,6 +140,12 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Aura|Vital Attributes")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
+	/** Vital Attributes End */
+	
+	/** Vital Attributes */
+	UPROPERTY(BlueprintReadOnly, Category="Aura|MetaAttributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
 	/** Vital Attributes End */
 
 	UFUNCTION()
