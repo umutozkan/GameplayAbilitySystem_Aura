@@ -142,11 +142,11 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 	/** Vital Attributes End */
 
-	/** Vital Attributes */
-	UPROPERTY(BlueprintReadOnly, Category="Aura|MetaAttributes")
+	/** Meta Attributes */
+	UPROPERTY(BlueprintReadOnly, Category="Aura|Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
-	/** Vital Attributes End */
+	/** Meta Attributes End */
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
@@ -198,5 +198,5 @@ public:
 
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
-	void ShowFloatingText(const FEffectProperties& Props, float Damage);
+	void ShowFloatingText(const FEffectProperties& Props, float Damage) const;
 };

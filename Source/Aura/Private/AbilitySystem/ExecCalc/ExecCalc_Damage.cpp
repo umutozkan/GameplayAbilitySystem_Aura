@@ -50,7 +50,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
                                               FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
 	const UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
-	UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
+	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
 	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
 	ICombatInterface* SourceCombatInterface = Cast<ICombatInterface>(SourceAvatar);
