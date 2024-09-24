@@ -4,6 +4,7 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -74,7 +75,13 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluationParameters,
 	                                                           TargetBlockChance);
 	TargetBlockChance = FMath::Max<float>(0.f, TargetBlockChance);
+
 	const bool bBlocked = FMath::RandRange(0.f, 100.f) < TargetBlockChance;
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+
+	// If blocked half damage
 	Damage = bBlocked ? Damage / 2.f : Damage;
 
 	// Armor & Armor Penetration Modifications
@@ -126,6 +133,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	const bool bCritical = FMath::RandRange(0.f, 100.f) < EffectiveCriticalHitChance;
 	Damage = bCritical ? Damage * 2.f + SourceCriticalHitDamage : Damage;
+	
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCritical);
 
 	// Set Total Damage as additive do damage (it should be 0 before this method. Becuse there is nomodifier defined on GE)
 	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(),
