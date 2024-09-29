@@ -69,10 +69,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	// Get Damage Set By Caller Magnitude
 	float Damage = 0.f;
-	for (FGameplayTag DamageTypeTag: FAuraGameplayTags::Get().DamageTypes)
+	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FAuraGameplayTags::Get().DamageTypesToResistances)
 	{
-		float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
-		Damage+=DamageTypeValue;
+		float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
+		Damage += DamageTypeValue;
 	}
 
 	// Block Modifications
@@ -83,7 +83,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	const bool bBlocked = FMath::RandRange(0.f, 100.f) < TargetBlockChance;
 	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
-	
+
 	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
 
 	// If blocked half damage
@@ -138,7 +138,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	const bool bCritical = FMath::RandRange(0.f, 100.f) < EffectiveCriticalHitChance;
 	Damage = bCritical ? Damage * 2.f + SourceCriticalHitDamage : Damage;
-	
+
 	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCritical);
 
 	// Set Total Damage as additive do damage (it should be 0 before this method. Becuse there is nomodifier defined on GE)
