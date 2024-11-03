@@ -41,7 +41,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category="Aura|Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Aura|Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY(EditAnywhere, Category="Aura|Combat")
